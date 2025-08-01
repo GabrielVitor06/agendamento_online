@@ -65,28 +65,6 @@ export default function InputAdornments() {
               label="Outlined"
               variant="outlined"
               fullWidth
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "white", // cor padrão
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "#1976d2", // cor ao passar o mouse
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "#1976d2", // cor quando focado
-                  },
-                },
-                input: {
-                  color: "white", // cor do texto digitado
-                },
-                label: {
-                  color: "white", // cor do label
-                  "&.Mui-focused": {
-                    color: "#1976d2", // cor do label quando focado
-                  },
-                },
-              }}
             />
             <TextField
               label="Password"
@@ -108,28 +86,6 @@ export default function InputAdornments() {
                     </IconButton>
                   </InputAdornment>
                 ),
-              }}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "white", // cor padrão
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "#1976d2", // cor ao passar o mouse
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "#1976d2", // cor quando focado
-                  },
-                },
-                input: {
-                  color: "white", // cor do texto digitado
-                },
-                label: {
-                  color: "white", // cor do label
-                  "&.Mui-focused": {
-                    color: "#1976d2", // cor do label quando focado
-                  },
-                },
               }}
             />
             <Button variant="contained">Enviar</Button>
