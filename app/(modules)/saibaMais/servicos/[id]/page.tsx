@@ -1,5 +1,5 @@
 import db from "@/lib/db";
-import { services } from "@/lib/schema";
+import { services, staff } from "@/lib/schema";
 import {
   Box,
   Stack,
@@ -16,8 +16,6 @@ import {
 import Link from "next/link";
 import { eq } from "drizzle-orm";
 
-const providers = ["Romário", "Nei"];
-
 type Props = {
   params: { id: string };
 };
@@ -25,12 +23,16 @@ type Props = {
 export default async function ServicoPage({ params }: Props) {
   const id = Number(params.id);
 
+  // Busca o serviço pelo ID
   const servico = await db
     .select()
     .from(services)
     .where(eq(services.id, id))
     .limit(1)
     .then((res) => res[0]);
+
+  // Busca todos os providers (staff)
+  const providers = await db.select().from(staff);
 
   if (!servico) {
     return <Typography color="error">Serviço não encontrado</Typography>;
@@ -71,12 +73,12 @@ export default async function ServicoPage({ params }: Props) {
               Fornecido por
             </Typography>
             <Grid container spacing={2} mb={3}>
-              {providers.map((name, index) => (
-                <Grid key={index}>
+              {providers.map((person) => (
+                <Grid key={person.id}>
                   <Stack alignItems="center" spacing={1}>
                     <Avatar />
                     <Typography variant="body2" align="center">
-                      {name}
+                      {person.name}
                     </Typography>
                   </Stack>
                 </Grid>
