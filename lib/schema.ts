@@ -5,6 +5,7 @@ export const clients = sqliteTable("clients", {
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
   phone: text("phone"),
+  password: text("password"),
 });
 
 export const services = sqliteTable("services", {
@@ -13,6 +14,7 @@ export const services = sqliteTable("services", {
   description: text("description"),
   durationMinutes: integer("duration_minutes").notNull(),
   price: text("price").notNull(),
+  image: text("image").notNull(),
 });
 
 export const staff = sqliteTable("staff", {
