@@ -183,6 +183,7 @@ setError("erro ao conectar com o servidor");
               <Button
                 variant="contained"
                 size="small"
+                type="submit"
                 sx={{ bgcolor: "white", color: "black" }}
               >
                 Entrar
