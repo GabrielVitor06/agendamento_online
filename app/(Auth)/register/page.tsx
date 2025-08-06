@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React,{useState} from "react";
 import {
   Stack,
   Box,
@@ -10,8 +10,10 @@ import {
   Button,
   Typography,
   Divider,
+  Alert,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useRouter } from 'next/navigation'
 
 const whiteTextFieldStyles = {
   "& .MuiOutlinedInput-root": {
@@ -37,12 +39,48 @@ const whiteTextFieldStyles = {
 };
 
 export default function InputAdornments() {
-  const [showPassword, setShowPassword] = React.useState(false);
+  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => event.preventDefault();
+
+const handleRegister = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setError("");
+  setSuccess("");
+
+  try{
+    const res = await fetch("/api/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password, name, phone }),
+    });
+  
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    setError(data.message || "Erro ao cadastrar");
+  } else {
+    setSuccess("Cadastro realizado com sucesso!");
+    router.push("/agendar");
+  }
+  } catch {
+setError("erro ao conectar com o servidor");
+  }
+};
+
 
   return (
     <Stack position="relative" height="100vh">
@@ -99,26 +137,39 @@ export default function InputAdornments() {
             bgcolor="rgba(0, 0, 0, 0.6)"
             p={4}
           >
-            <Stack spacing={2} width="100%" component="form" maxWidth="400px">
+            <Stack spacing={2} width="100%" component="form" maxWidth="400px" onSubmit={handleRegister}>
               <Typography variant="h4" textAlign="center">
                 Cadastro
               </Typography>
+
+              {error && <Alert severity="error">{error}</Alert>}
+              {success && <Alert severity="success">{success}</Alert>}
+
               <TextField
                 label="Nome"
                 variant="outlined"
                 fullWidth
+                size="small"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 sx={whiteTextFieldStyles}
               />
               <TextField
                 label="Telefone"
                 variant="outlined"
                 fullWidth
+                size="small"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
                 sx={whiteTextFieldStyles}
               />
               <TextField
                 label="Email"
                 variant="outlined"
                 fullWidth
+                size="small"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 sx={whiteTextFieldStyles}
               />
               <TextField
@@ -126,6 +177,9 @@ export default function InputAdornments() {
                 variant="outlined"
                 type={showPassword ? "text" : "password"}
                 fullWidth
+                size="small"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
@@ -147,12 +201,14 @@ export default function InputAdornments() {
               />
               <Button
                 variant="contained"
+                type="submit"
+                size="small"
                 sx={{ bgcolor: "white", color: "black" }}
               >
                 cadastrar
               </Button>
               <Divider sx={{ borderColor: "grey.700" }} />
-              <Button href="/login" color="inherit">
+              <Button href="/login" color="inherit" size="small">
                 Já possui uma conta?
               </Button>
             </Stack>
