@@ -88,7 +88,7 @@ export default function InputAdornments() {
           minHeight="30vh"
           borderRadius={4}
           overflow="hidden"
-          boxShadow="0px 4px 20px rgba(0, 255, 0, 0.4)"
+           boxShadow="0px 2px 12px rgba(255, 255, 0, 0.4)"
         >
           {/* Formulário */}
           <Box

@@ -152,7 +152,7 @@ export default function InputAdornments() {
                 cadastrar
               </Button>
               <Divider sx={{ borderColor: "grey.700" }} />
-              <Button href="/register" color="inherit">
+              <Button href="/login" color="inherit">
                 Já possui uma conta?
               </Button>
             </Stack>
