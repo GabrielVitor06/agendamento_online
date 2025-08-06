@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React,{useState} from "react";
 import {
   Stack,
   Box,
@@ -10,8 +10,10 @@ import {
   Button,
   Typography,
   Divider,
+  Alert,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useRouter } from 'next/navigation'
 
 const whiteTextFieldStyles = {
   "& .MuiOutlinedInput-root": {
@@ -37,15 +39,52 @@ const whiteTextFieldStyles = {
 };
 
 export default function InputAdornments() {
-  const [showPassword, setShowPassword] = React.useState(false);
+  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => event.preventDefault();
 
+const handleRegister = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setError("");
+  setSuccess("");
+
+  try{
+    const res = await fetch("/api/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password, name, phone }),
+    });
+  
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    setError(data.message || "Erro ao cadastrar");
+  } else {
+    setSuccess("Cadastro realizado com sucesso!");
+    router.push("/agendar");
+  }
+  } catch {
+setError("erro ao conectar com o servidor");
+  }
+};
+
+
   return (
     <Stack position="relative" height="100vh">
+      {/* Plano de fundo */}
       <Box
         position="absolute"
         sx={{
@@ -71,111 +110,123 @@ export default function InputAdornments() {
         }}
       />
 
-      {/* Responsivo */}
-      <Stack direction={{ xs: "column", md: "row" }} width="100%" height="100%">
-        {/* Formulário de Login */}
+      {/* Card centralizado */}
+      <Box
+        height="100%"
+        width="100%"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        px={2}
+      >
         <Box
-          flex={1}
           display="flex"
-          justifyContent="center"
-          alignItems="center"
-          p={2}
+          flexDirection={{ xs: "column", md: "row" }}
+          width={{ xs: "100%", md: "1200px" }}
+          minHeight="30vh"
+          borderRadius={4}
+          overflow="hidden"
+          boxShadow="0px 2px 12px rgba(255, 255, 0, 0.4)"
         >
-          <Stack
-            bgcolor="rgba(0, 0, 0, 0.5)"
-            p={4}
-            ml={{ xs: 0, md: 4 }}
-            height="60vh"
-            width="100%"
-            maxWidth="400px"
-            spacing={2}
-            component="form"
-            sx={{
-              borderRadius: { xs: 2, md: 0 },
-              borderTopLeftRadius: { md: 16 },
-              borderTopRightRadius: { md: 0 },
-              borderBottomLeftRadius: { md: 16 },
-              borderBottomRightRadius: { md: 0 },
-              width: "100%",
-            }}
-          >
-            <Typography variant="h4" color="white" textAlign="center">
-              Cadastro
-            </Typography>
-            <TextField
-              label="Nome Completo"
-              variant="outlined"
-              fullWidth
-              sx={whiteTextFieldStyles}
-            />
-            <TextField
-              label="Telefone"
-              variant="outlined"
-              fullWidth
-              sx={whiteTextFieldStyles}
-            />
-            <TextField
-              label="Email"
-              variant="outlined"
-              fullWidth
-              sx={whiteTextFieldStyles}
-            />
-            <TextField
-              label="Password"
-              variant="outlined"
-              type={showPassword ? "text" : "password"}
-              fullWidth
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      sx={{ color: "white" }}
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                      aria-label={
-                        showPassword ? "hide password" : "show password"
-                      }
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              sx={whiteTextFieldStyles}
-            />
-            <Button
-              variant="contained"
-              sx={{ bgcolor: "white", color: "black" }}
-            >
-              Cadastrar
-            </Button>
-            <Divider sx={{ borderColor: "grey.700" }} />
-            <Button
-              href="/login"
-              color="inherit"
-            >
-              Já possui uma conta?
-            </Button>
-          </Stack>
+          {/* Formulário */}
           <Box
             flex={1}
-            mr={4}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            bgcolor="rgba(0, 0, 0, 0.6)"
+            p={4}
+          >
+            <Stack spacing={2} width="100%" component="form" maxWidth="400px" onSubmit={handleRegister}>
+              <Typography variant="h4" textAlign="center">
+                Cadastro
+              </Typography>
+
+              {error && <Alert severity="error">{error}</Alert>}
+              {success && <Alert severity="success">{success}</Alert>}
+
+              <TextField
+                label="Nome"
+                variant="outlined"
+                fullWidth
+                size="small"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                sx={whiteTextFieldStyles}
+              />
+              <TextField
+                label="Telefone"
+                variant="outlined"
+                fullWidth
+                size="small"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                sx={whiteTextFieldStyles}
+              />
+              <TextField
+                label="Email"
+                variant="outlined"
+                fullWidth
+                size="small"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                sx={whiteTextFieldStyles}
+              />
+              <TextField
+                label="Password"
+                variant="outlined"
+                type={showPassword ? "text" : "password"}
+                fullWidth
+                size="small"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        sx={{ color: "white" }}
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                        aria-label={
+                          showPassword ? "hide password" : "show password"
+                        }
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={whiteTextFieldStyles}
+              />
+              <Button
+                variant="contained"
+                type="submit"
+                size="small"
+                sx={{ bgcolor: "white", color: "black" }}
+              >
+                cadastrar
+              </Button>
+              <Divider sx={{ borderColor: "grey.700" }} />
+              <Button href="/login" color="inherit" size="small">
+                Já possui uma conta?
+              </Button>
+            </Stack>
+          </Box>
+
+          {/* Imagem */}
+          <Box
+            flex={1}
             display={{ xs: "none", md: "block" }}
-            height="60vh"
             sx={{
               backgroundImage:
                 "url('https://images.squarespace-cdn.com/content/v1/54212c92e4b02579387a8877/1732483037941-EKIN36LWYY5W8O0KUT5C/IMG_5544.jpg')",
               backgroundSize: "cover",
               backgroundPosition: "center",
-              borderTopLeftRadius: 0,
-              borderTopRightRadius: 16,
-              borderBottomLeftRadius: 0,
-              borderBottomRightRadius: 16,
             }}
           />
         </Box>
-      </Stack>
+      </Box>
     </Stack>
   );
 }
