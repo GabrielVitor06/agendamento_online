@@ -48,7 +48,6 @@ export async function POST(req: NextRequest) {
       password: hashedPassword,
     });
 
-    // Buscar o usuário inserido para pegar o ID
     const newUser = await db
       .select()
       .from(clients)
@@ -65,7 +64,7 @@ export async function POST(req: NextRequest) {
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
-      maxAge: 60 * 60 * 24 * 7, // 7 dias
+      maxAge: 60 * 60 * 24 * 7,
     });
 
     return NextResponse.json(
