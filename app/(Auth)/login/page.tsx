@@ -46,7 +46,6 @@ export default function InputAdornments() {
 
   return (
     <Stack position="relative" height="100vh">
-      {/* Plano de fundo */}
       <Box
         position="absolute"
         sx={{
@@ -72,7 +71,6 @@ export default function InputAdornments() {
         }}
       />
 
-      {/* Card centralizado */}
       <Box
         height="100%"
         width="100%"
@@ -90,7 +88,6 @@ export default function InputAdornments() {
           overflow="hidden"
            boxShadow="0px 2px 12px rgba(255, 255, 0, 0.4)"
         >
-          {/* Formulário */}
           <Box
             flex={1}
             display="flex"
@@ -147,7 +144,6 @@ export default function InputAdornments() {
             </Stack>
           </Box>
 
-          {/* Imagem */}
           <Box
             flex={1}
             display={{ xs: "none", md: "block" }}

@@ -1,4 +1,4 @@
-import Services from "@/components/Services";
+import ServicesSection from "@/app/(modules)/saibaMais/page";
 import { Box, Stack } from "@mui/material";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
@@ -24,7 +24,7 @@ export default function Home() {
             }}
           />
         </Stack>
-        <Stack position="relative" height={{ xs: "150vh", sm: "50vh" }}>
+        <Stack position="relative" height={{ xs: "160vh", sm: "50vh" }}>
           <Box
             position="absolute"
             zIndex={0}
@@ -51,15 +51,7 @@ export default function Home() {
               }}
             />
 
-            <Box
-              zIndex={1}
-              px={{ xs: 2, sm: 4, md: 6 }}
-              width="100%"
-              maxWidth="1200px"
-              mt={{ md: 8 }}
-            >
-              <Services />
-            </Box>
+            <ServicesSection />
           </Box>
         </Stack>
       </Box>
