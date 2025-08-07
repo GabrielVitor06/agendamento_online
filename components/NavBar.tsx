@@ -16,25 +16,24 @@ import {
   Button,
   Avatar,
   Stack,
+  ListItemIcon,
 } from "@mui/material";
-
-import MenuIcon from "@mui/icons-material/Menu";
+import {
+  HomeFilled,
+  EventNote,
+  LocationOn,
+  ContactPage,
+  Login,
+  Menu,
+} from "@mui/icons-material";
 import React, { useState } from "react";
+import Link from "next/link";
 
 interface Props {
   window?: () => Window;
 }
 
 const drawerWidth = 240;
-
-const navItems = [
-  { label: "Home", href: "/" },
-  { label: "Agendar", href: "/agendar" },
-  { label: "Localização", href: "/localization" },
-  { label: "Contato", href: "#contato" },
-  { label: "Login", href: "/login" },
-  { label: "Cadastro", href: "/register" },
-];
 
 export default function DrawerAppBar(props: Props) {
   const { window } = props;
@@ -71,7 +70,7 @@ export default function DrawerAppBar(props: Props) {
               aria-label="menu"
               onClick={handleDrawerToggle}
             >
-              <MenuIcon />
+              <Menu />
             </IconButton>
             <Typography variant="h6">NEI&apos;S BARBER SHOP</Typography>
             <Avatar sx={{ bgcolor: "#000000" }}>H</Avatar>
@@ -88,11 +87,33 @@ export default function DrawerAppBar(props: Props) {
           </Stack>
 
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
-            {navItems.map(({ label, href }) => (
-              <Button key={label} color="inherit" href={href}>
-                {label}
-              </Button>
-            ))}
+            <Button href="/" startIcon={<HomeFilled />} color="inherit">
+              Home
+            </Button>
+            <Button href="#" startIcon={<ContactPage />} color="inherit">
+              Contato
+            </Button>
+            <Button
+              href="/localization"
+              startIcon={<LocationOn />}
+              color="inherit"
+            >
+              Local
+            </Button>
+            <Button href="/agendar" startIcon={<EventNote />} color="inherit">
+              Agendar
+            </Button>
+            <IconButton
+              href="/login"
+              sx={{
+                backgroundColor: "#f1f1f1",
+                "&:hover": {
+                  backgroundColor: "#e0e0e0",
+                },
+              }}
+            >
+              <Login color="success" />
+            </IconButton>
           </Box>
         </Toolbar>
       </AppBar>
@@ -125,13 +146,50 @@ export default function DrawerAppBar(props: Props) {
           </Typography>
           <Divider />
           <List>
-            {navItems.map(({ label, href }) => (
-              <ListItem key={label} disablePadding>
-                <ListItemButton component="a" href={href}>
-                  <ListItemText primary={label} />
-                </ListItemButton>
-              </ListItem>
-            ))}
+            <ListItem disablePadding>
+              <ListItemButton component={Link} href="/">
+                <ListItemIcon>
+                  <HomeFilled />
+                </ListItemIcon>
+                <ListItemText primary="Home" />
+              </ListItemButton>
+            </ListItem>
+
+            <ListItem disablePadding>
+              <ListItemButton component={Link} href="#">
+                <ListItemIcon>
+                  <ContactPage />
+                </ListItemIcon>
+                <ListItemText primary="Contato" />
+              </ListItemButton>
+            </ListItem>
+
+            <ListItem disablePadding>
+              <ListItemButton component={Link} href="/localization">
+                <ListItemIcon>
+                  <LocationOn />
+                </ListItemIcon>
+                <ListItemText primary="Local" />
+              </ListItemButton>
+            </ListItem>
+
+            <ListItem disablePadding>
+              <ListItemButton component={Link} href="/agendar">
+                <ListItemIcon>
+                  <EventNote />
+                </ListItemIcon>
+                <ListItemText primary="Agendar" />
+              </ListItemButton>
+            </ListItem>
+
+            <ListItem disablePadding>
+              <ListItemButton component={Link} href="/login">
+                <ListItemIcon>
+                  <Login />
+                </ListItemIcon>
+                <ListItemText primary="Login" />
+              </ListItemButton>
+            </ListItem>
           </List>
         </Box>
       </Drawer>

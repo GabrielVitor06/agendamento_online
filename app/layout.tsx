@@ -26,11 +26,6 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen flex flex-col antialiased`}
-        style={{
-          backgroundColor: "black",
-          color: "white",
-          fontFamily: "var(--font-geist-sans)",
-        }}
       >
         {children}
       </body>

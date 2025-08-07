@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
   Stack,
   Box,
@@ -13,7 +13,7 @@ import {
   Alert,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 
 const whiteTextFieldStyles = {
   "& .MuiOutlinedInput-root": {
@@ -51,33 +51,32 @@ export default function InputAdornments() {
     event: React.MouseEvent<HTMLButtonElement>
   ) => event.preventDefault();
 
-const handleLogin = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setError("");
-  setSuccess("");
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setSuccess("");
 
-  try{
-    const res = await fetch("/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password}),
-    });
-  
+    try {
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-  const data = await res.json();
+      const data = await res.json();
 
-  if (!res.ok) {
-    setError(data.message || "Erro ao fazer login");
-  } else {
-    setSuccess("Login realizado com sucesso!");
-    router.push("/agendar");
-  }
-  } catch {
-setError("erro ao conectar com o servidor");
-  }
-};
+      if (!res.ok) {
+        setError(data.message || "Erro ao fazer login");
+      } else {
+        setSuccess("Login realizado com sucesso!");
+        router.push("/agendar");
+      }
+    } catch {
+      setError("erro ao conectar com o servidor");
+    }
+  };
 
   return (
     <Stack position="relative" height="100vh">
@@ -121,7 +120,7 @@ setError("erro ao conectar com o servidor");
           minHeight="30vh"
           borderRadius={4}
           overflow="hidden"
-           boxShadow="0px 2px 12px rgba(255, 255, 0, 0.4)"
+          boxShadow="0px 2px 12px rgba(255, 255, 0, 0.4)"
         >
           <Box
             flex={1}
@@ -131,12 +130,13 @@ setError("erro ao conectar com o servidor");
             bgcolor="rgba(0, 0, 0, 0.6)"
             p={4}
           >
-            <Stack 
-            component="form" 
-            spacing={2} 
-            width="100%" 
-            maxWidth="400px"
-            onSubmit={handleLogin}>
+            <Stack
+              component="form"
+              spacing={2}
+              width="100%"
+              maxWidth="400px"
+              onSubmit={handleLogin}
+            >
               <Typography variant="h4" color="white" textAlign="center">
                 Login
               </Typography>
@@ -183,6 +183,7 @@ setError("erro ao conectar com o servidor");
               <Button
                 variant="contained"
                 size="small"
+                type="submit"
                 sx={{ bgcolor: "white", color: "black" }}
               >
                 Entrar
