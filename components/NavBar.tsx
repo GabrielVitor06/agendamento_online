@@ -17,7 +17,7 @@ import {
   Avatar,
   Stack,
 } from "@mui/material";
-
+import { HomeFilled, EventNote, LocationOn, ContactPage, Login,  } from '@mui/icons-material';
 import MenuIcon from "@mui/icons-material/Menu";
 import React, { useState } from "react";
 
@@ -27,14 +27,44 @@ interface Props {
 
 const drawerWidth = 240;
 
-const navItems = [
-  { label: "Home", href: "/" },
-  { label: "Agendar", href: "/agendar" },
-  { label: "Localização", href: "/localization" },
-  { label: "Contato", href: "#contato" },
-  { label: "Login", href: "/login" },
-  { label: "Cadastro", href: "/register" },
+type NavItem = {
+  icon?: React.ElementType;
+  label?: string;
+  href: string;
+  customComponent?: React.ReactNode;
+};
+
+
+const navItems: NavItem[] = [
+  { icon: HomeFilled, label: "Home", href: "/" },
+  { icon: ContactPage, label: "Contato", href: "#contato" },
+  { icon: LocationOn, label: "Localização", href: "/localization" },
+  { icon: EventNote, label: "Agendar", href: "/agendar" },
+{
+  customComponent: (
+    <a
+      className="login-button"
+      style={{
+        padding: "8px 12px",
+        backgroundColor: "#1976d2",
+        color: "#fff",
+        borderRadius: "8px",
+        display: "flex",
+        alignItems: "center",
+        textDecoration: "none"
+      }}
+      href="/login"
+    >
+      <Login style={{ marginRight: 8 }} htmlColor="#fff" />
+      <strong>Entrar</strong>
+    </a>
+  ),
+  href: "/login",
+}
+
 ];
+
+
 
 export default function DrawerAppBar(props: Props) {
   const { window } = props;
@@ -88,9 +118,14 @@ export default function DrawerAppBar(props: Props) {
           </Stack>
 
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
-            {navItems.map(({ label, href }) => (
-              <Button key={label} color="inherit" href={href}>
-                {label}
+            {navItems.map(({ label, href, icon }) => (
+              <Button
+                key={href}
+                startIcon={icon ? React.createElement(icon) : undefined}
+                color="inherit"
+                href={href}
+              >
+                    {label && <span>{label}</span>}
               </Button>
             ))}
           </Box>
@@ -126,7 +161,7 @@ export default function DrawerAppBar(props: Props) {
           <Divider />
           <List>
             {navItems.map(({ label, href }) => (
-              <ListItem key={label} disablePadding>
+              <ListItem key={href} disablePadding>
                 <ListItemButton component="a" href={href}>
                   <ListItemText primary={label} />
                 </ListItemButton>
