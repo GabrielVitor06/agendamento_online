@@ -4,17 +4,18 @@ import { Stack, Typography, Button } from "@mui/material";
 export default function Localizacao() {
   return (
     <Stack
-      p={2}
+      p={{ xs: 2, xl: 3 }}
       bgcolor="#1e1e1e"
       borderRadius={2}
       color="white"
-      width={{ xs: "100%", md: "45%" }}
+      width={{ xs: "90%", md: "45%" }}
+      height={{ xs: "auto", md: 400, xl: 500 }}
       boxShadow={3}
       spacing={2}
       direction={"row"}
       mx={"auto"}
     >
-      <Stack spacing={2}>
+      <Stack spacing={2} alignSelf="center">
         <Typography variant="h6">Localização</Typography>
         <Typography variant="caption">
           R. Agílio Cunha, 651 - Cidade Nova, Itajaí - SC, 88308-150
@@ -43,8 +44,8 @@ export default function Localizacao() {
       </Stack>
 
       <Box
-        width="100%"
-        height={300}
+        width="90%"
+        height="auto"
         borderRadius={2}
         overflow="hidden"
         boxShadow={3}
